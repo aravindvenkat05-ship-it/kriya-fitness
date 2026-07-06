@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenSpace - Free Health, Yoga & Books</title>
+    <meta name="description" content="ZenSpace — free wellness app for yoga, meditation, breathing exercises, and mindfulness. Search wellness content and track your daily intentions.">
+    <meta name="application-name" content="ZenSpace">
+    <meta name="keywords" content="yoga, meditation, breathing, wellness, mindfulness, zenspace, free yoga, relaxation">
+    <link rel="search" type="application/opensearchdescription+xml" title="ZenSpace Wellness Search" href="/opensearch.xml">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+            color: #333; padding: 16px; display: flex; justify-content: center; min-height: 100vh;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.dark { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #e0e0e0; }
+        body.dark .app-card { background: #1e293b; }
+        body.dark h1 { color: #5eead4; }
+        body.dark h2 { color: #5eead4; border-bottom-color: #334155; }
+        body.dark .yoga-pose { background: #1e3a3a; }
+        body.dark .yoga-pose:hover { border-color: #2dd4bf; }
+        body.dark .yoga-pose.active { background: #1a3333; border-color: #2dd4bf; }
+        body.dark .pose-name { color: #5eead4; }
+        body.dark .pose-desc { color: #aaa; }
+        body.dark .breath-container { background: #1a2e2e; }
+        body.dark .breath-text { color: #a7f3d0; }
+        body.dark .breath-container p { color: #aaa; }
+        body.dark .book-card { background: #1e293b; border-left-color: #f59e0b; }
+        body.dark .book-title { color: #e0e0e0; }
+        body.dark .book-author { color: #999; }
+        body.dark .book-desc { color: #bbb; }
+        body.dark .intention-box { background: #1a2e2e; }
+        body.dark .intention-box input { background: #0f172a; color: #e0e0e0; border-color: #334155; }
+        body.dark .intention-box input:focus { border-color: #2dd4bf; }
+        body.dark .saved-intention { background: #1a3333; color: #a7f3d0; }
+        body.dark .share-section { background: #1a2e2e; }
+        body.dark .share-section p { color: #aaa; }
+        body.dark .footer { color: #666; }
+        body.dark .creator-name { color: #5eead4; }
+        body.dark .quote-box { background: #1e293b; border-left-color: #8b5cf6; }
+        body.dark .quote-text { color: #e0e0e0; }
+        body.dark .quote-author { color: #8b5cf6; }
+        body.dark .new-quote-btn { background: #7c3aed; color: white; }
+        body.dark .new-quote-btn:hover { background: #6d28d9; }
+        body.dark .meditation-container { background: #1a2e2e; }
+        body.dark .meditation-container p { color: #aaa; }
+        body.dark .med-time { color: #a7f3d0; }
+        body.dark .med-circle { background: #7c3aed; box-shadow: 0 0 30px rgba(124, 58, 237, 0.4); }
+        body.dark .med-btn { background: #7c3aed; }
+        body.dark .med-btn:hover { background: #6d28d9; }
+        body.dark .med-btn.stop { background: #ef4444; }
+        body.dark .duration-btn { background: #334155; color: #e0e0e0; }
+        body.dark .duration-btn.active { background: #7c3aed; color: white; }
+        body.dark .dark-toggle { background: #334155; color: #fbbf24; }
+        body.dark .med-status { color: #aaa; }
+        body.dark .greeting-box { background: #1e293b; }
+        body.dark .greeting-text { color: #fbbf24; }
+        body.dark .greeting-sub { color: #aaa; }
+        body.dark .sound-player { background: #1e293b; }
+        body.dark .sound-player p { color: #aaa; }
+        body.dark .sound-btn { background: #334155; color: #e0e0e0; }
+        body.dark .sound-btn.active { background: #0288d1; color: white; box-shadow: 0 0 15px rgba(2,136,209,0.5); }
+        body.dark .vortex-container { background: #1a2e2e; }
+        body.dark .vortex-container p { color: #aaa; }
+        body.dark .vortex-text { color: #a7f3d0; }
+        body.dark .vortex-circle { background: radial-gradient(circle, #004d40 0%, #00897b 100%); box-shadow: 0 0 40px rgba(0,137,123,0.5); }
+        body.dark .vortex-circle.in { box-shadow: 0 0 80px rgba(0,137,123,0.9); }
+        body.dark .gratitude-box { background: #1e293b; }
+        body.dark .gratitude-box p { color: #aaa; }
+        body.dark .gratitude-box textarea { background: #0f172a; color: #e0e0e0; border-color: #334155; }
+        body.dark .gratitude-box textarea:focus { border-color: #2dd4bf; }
+        body.dark .save-gratitude-btn { background: #7c3aed; }
+        body.dark .save-gratitude-btn:hover { background: #6d28d9; }
+        body.dark .gratitude-log-text { color: #e0e0e0; background: #0f172a; }
+        body.dark .log-label { color: #aaa; }
+        body.dark .search-widget { background: #1e293b; }
+        body.dark .search-widget p { color: #aaa; }
+        body.dark .search-input-row input { background: #0f172a; color: #e0e0e0; border-color: #334155; }
+        body.dark .search-input-row input:focus { border-color: #2dd4bf; }
+        body.dark .engine-btn { background: #334155; color: #cbd5e1; border-color: #475569; }
+        body.dark .engine-btn.active { background: #0d9488; color: white; border-color: #0d9488; }
+        body.dark .shortcut-chips button { background: #1a3333; color: #5eead4; border-color: #2dd4bf; }
+        body.dark .shortcut-chips button:hover { background: #0d4444; }
+
+        .app-card { background: white; max-width: 800px; width: 100%; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); padding: 24px; margin: 20px auto; transition: background 0.4s; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+        h1 { color: #00796b; display: flex; align-items: center; gap: 12px; font-size: 28px; }
+        .dark-toggle { background: #e0f2f1; border: none; padding: 10px 16px; border-radius: 25px; font-size: 18px; cursor: pointer; }
+        .dark-toggle:hover { background: #b2dfdb; }
+        h2 { color: #00695c; border-bottom: 2px solid #e0f2f1; padding-bottom: 8px; margin-top: 30px; margin-bottom: 15px; font-size: 22px; }
+        .free-badge { background: #009688; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+
+        .greeting-box { background: linear-gradient(135deg, #fff9c4 0%, #ffe0b2 100%); padding: 24px; border-radius: 15px; text-align: center; margin-bottom: 5px; }
+        .greeting-text { font-size: 26px; font-weight: bold; color: #e65100; margin-bottom: 6px; }
+        .greeting-sub { font-size: 15px; color: #888; }
+
+        .quote-box { background: #faf5ff; padding: 20px 24px; border-radius: 15px; border-left: 5px solid #8b5cf6; text-align: center; }
+        .quote-text { font-size: 18px; font-style: italic; line-height: 1.6; color: #333; margin-bottom: 10px; }
+        .quote-author { font-weight: bold; color: #7c3aed; font-size: 15px; margin-bottom: 15px; }
+        .new-quote-btn { background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .new-quote-btn:hover { background: #7c3aed; }
+
+        /* Wellness Quick Search */
+        .search-widget { background: linear-gradient(135deg, #e0f2f1 0%, #f1f8e9 100%); padding: 22px; border-radius: 15px; }
+        .search-widget p { color: #555; margin-bottom: 14px; font-size: 15px; }
+        .search-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .search-input-row input {
+            flex: 1; padding: 14px 16px; font-size: 16px; border: 2px solid #80cbc4;
+            border-radius: 10px; outline: none; font-family: inherit; transition: border 0.2s;
+        }
+        .search-input-row input:focus { border-color: #009688; }
+        .search-go-btn {
+            background: #009688; color: white; border: none; padding: 14px 22px;
+            border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .search-go-btn:hover { background: #00796b; }
+        .engine-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        .engine-btn {
+            background: white; border: 2px solid #b2dfdb; color: #00695c;
+            padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: bold;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .engine-btn:hover { background: #e0f2f1; }
+        .engine-btn.active { background: #009688; color: white; border-color: #009688; }
+        .shortcut-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .shortcut-chips span { font-size: 13px; color: #777; align-self: center; margin-right: 4px; }
+        .shortcut-chips button {
+            background: #f1f8e9; border: 1.5px solid #a5d6a7; color: #2e7d32;
+            padding: 6px 12px; border-radius: 15px; font-size: 13px; cursor: pointer; transition: background 0.2s;
+        }
+        .shortcut-chips button:hover { background: #c8e6c9; }
+
+        /* Sound Player */
+        .sound-player { background: #e1f5fe; padding: 20px; border-radius: 15px; text-align: center; }
+        .sound-player p { color: #555; margin-bottom: 15px; }
+        .sound-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .sound-btn { background: white; border: 2px solid #b3e5fc; padding: 12px 20px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; color: #0277bd; transition: all 0.2s; }
+        .sound-btn:hover { background: #b3e5fc; }
+        .sound-btn.active { background: #0288d1; color: white; border-color: #0288d1; box-shadow: 0 4px 10px rgba(2,136,209,0.3); }
+
+        /* Vortex Breathing */
+        .vortex-container { display: flex; flex-direction: column; align-items: center; padding: 24px; background: #e0f2f1; border-radius: 15px; text-align: center; }
+        .vortex-container p { color: #555; margin-bottom: 15px; }
+        .vortex-circle {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: radial-gradient(circle, #80cbc4 0%, #00897b 100%);
+            margin: 20px 0; box-shadow: 0 0 30px rgba(0,137,123,0.4);
+            transform: scale(0.5) rotate(0deg);
+            transition: transform 5.5s ease-in-out, box-shadow 5.5s ease-in-out;
+        }
+        .vortex-circle.in {
+            transform: scale(1.2) rotate(180deg);
+            box-shadow: 0 0 80px rgba(0,137,123,0.8);
+        }
+        .vortex-text { font-weight: bold; color: #00695c; font-size: 22px; height: 28px; }
+
+        .gratitude-box { background: #e8f5e9; padding: 20px; border-radius: 15px; }
+        .gratitude-box p { color: #555; margin-bottom: 15px; text-align: center; }
+        .gratitude-box textarea { width: 100%; padding: 14px; font-size: 15px; border: 2px solid #a5d6a7; border-radius: 10px; outline: none; resize: vertical; min-height: 80px; font-family: inherit; transition: border 0.2s; }
+        .gratitude-box textarea:focus { border-color: #43a047; }
+        .save-gratitude-btn { background: #43a047; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 12px; width: 100%; transition: background 0.2s; }
+        .save-gratitude-btn:hover { background: #388e3c; }
+        .log-label { font-weight: bold; color: #888; font-size: 13px; margin-top: 15px; margin-bottom: 8px; }
+        .gratitude-log-text { background: white; padding: 12px; border-radius: 10px; color: #555; font-size: 14px; white-space: pre-line; }
+
+        .meditation-container { display: flex; flex-direction: column; align-items: center; padding: 24px; background: #ede9fe; border-radius: 15px; text-align: center; }
+        .meditation-container p { margin-bottom: 15px; color: #555; }
+        .med-time { font-size: 48px; font-weight: bold; color: #5b21b6; margin: 15px 0; }
+        .med-circle { width: 140px; height: 140px; border-radius: 50%; background: #8b5cf6; margin: 15px 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(139, 92, 246, 0.4); }
+        .med-circle.pulse { animation: medPulse 3s ease-in-out infinite; }
+        @keyframes medPulse { 0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.4); transform: scale(1); } 50% { box-shadow: 0 0 60px rgba(139, 92, 246, 0.7); transform: scale(1.05); } }
+        .med-icon { font-size: 50px; }
+        .duration-buttons { display: flex; gap: 8px; margin: 15px 0; flex-wrap: wrap; justify-content: center; }
+        .duration-btn { background: #e9d5ff; border: 2px solid transparent; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; color: #5b21b6; }
+        .duration-btn:hover { background: #d8b4fe; }
+        .duration-btn.active { background: #7c3aed; color: white; }
+        .med-btn { background: #8b5cf6; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .med-btn:hover { background: #7c3aed; }
+        .med-btn.stop { background: #ef4444; }
+        .med-btn.stop:hover { background: #dc2626; }
+        .med-status { margin-top: 10px; font-weight: bold; color: #555; min-height: 24px; }
+
+        .yoga-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+        .yoga-pose { display: flex; flex-direction: column; align-items: center; text-align: center; background: #f1f8e9; padding: 16px; border-radius: 15px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: 2px solid transparent; }
+        .yoga-pose:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid #a5d6a7; }
+        .yoga-pose.active { background: #e8f5e9; border: 2px solid #009688; }
+        .pose-emoji { font-size: 42px; margin-bottom: 10px; }
+        .pose-name { font-weight: bold; font-size: 16px; color: #2e7d32; margin-bottom: 5px; }
+        .pose-desc { font-size: 14px; color: #555; line-height: 1.4; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, margin-top 0.3s ease-out; }
+        .yoga-pose.active .pose-desc { max-height: 100px; margin-top: 8px; }
+
+        .breath-container { display: flex; flex-direction: column; align-items: center; padding: 24px; background: #e0f7fa; border-radius: 15px; text-align: center; }
+        .breath-container p { color: #555; }
+        .breath-circle { width: 120px; height: 120px; border-radius: 50%; background: #4dd0e1; margin: 20px 0; box-shadow: 0 0 20px rgba(77, 208, 225, 0.5); transform: scale(1); transition: transform 4s ease-in-out; }
+        .breath-circle.shrink { transform: scale(0.4); }
+        .breath-text { font-weight: bold; color: #006064; font-size: 20px; height: 28px; }
+
+        .book-list { display: flex; flex-direction: column; gap: 16px; }
+        .book-card { background: #fff8e1; padding: 16px; border-radius: 12px; border-left: 5px solid #ffb300; }
+        .book-title { font-weight: bold; font-size: 17px; color: #333; }
+        .book-author { font-size: 14px; color: #666; margin-top: 4px; }
+        .book-desc { margin: 12px 0 0 0; font-size: 14px; color: #555; display: none; line-height: 1.5; }
+        .book-desc.show { display: block; }
+        .book-buttons { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .btn { border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; text-decoration: none; display: inline-block; text-align: center; }
+        .read-more-btn { background: #ffe0b2; color: #e65100; width: 100%; }
+        .download-btn { background: #ffb300; color: white; width: 100%; }
+        .download-btn:hover { background: #ffa000; }
+        .read-more-btn:hover { background: #ffb74d; }
+        @media (min-width: 480px) { .read-more-btn, .download-btn { width: auto; } }
+
+        .intention-box { display: flex; flex-direction: column; gap: 10px; background: #f1f8e9; padding: 16px; border-radius: 12px; }
+        .intention-box input { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #80cbc4; border-radius: 8px; outline: none; }
+        .intention-box input:focus { border: 2px solid #009688; }
+        .intention-box button { background-color: #009688; color: white; border: none; padding: 14px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
+        .intention-box button:hover { background-color: #00796b; }
+        .saved-intention { margin-top: 15px; font-style: italic; color: #555; background: #e0f2f1; padding: 14px; border-radius: 8px; display: none; font-weight: bold; text-align: center; font-size: 16px; }
+
+        .share-section { text-align: center; margin-top: 30px; padding: 24px; background: #e8f5e9; border-radius: 15px; }
+        .share-section h2 { border: none; margin-bottom: 10px; }
+        .share-section p { margin-bottom: 15px; color: #555; }
+        .share-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .share-btn { padding: 12px 20px; border-radius: 8px; color: white; font-weight: bold; text-decoration: none; font-size: 15px; cursor: pointer; border: none; flex: 1; min-width: 120px; }
+        .share-btn:hover { opacity: 0.9; }
+        .wa { background: #25D366; }
+        .tw { background: #1DA1F2; }
+        .fb { background: #1877F2; }
+        .copy { background: #607D8B; }
+
+        .footer { text-align: center; margin-top: 40px; color: #888; font-size: 14px; padding-bottom: 20px; }
+        .creator-name { font-weight: bold; color: #00796b; font-size: 18px; margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <h1>🧘 ZenSpace <span class="free-badge">100% Free</span></h1>
+        <button class="dark-toggle" onclick="toggleDarkMode()" id="darkBtn" title="Toggle Dark Mode">🌙</button>
+    </div>
+
+    <div class="greeting-box">
+        <div class="greeting-text" id="greetingText"></div>
+        <div class="greeting-sub" id="greetingSub"></div>
+    </div>
+
+    <div class="quote-box">
+        <div id="quoteText" class="quote-text"></div>
+        <div id="quoteAuthor" class="quote-author"></div>
+        <button class="new-quote-btn" onclick="newQuote()">✨ New Quote</button>
+    </div>
+
+    <!-- Wellness Quick Search -->
+    <h2>🔍 Wellness Quick Search</h2>
+    <div class="search-widget">
+        <p>Search for yoga poses, meditation guides, breathing techniques, and more.</p>
+        <div class="search-input-row">
+            <input type="text" id="searchInput" placeholder="e.g. morning yoga, sleep meditation..." onkeypress="handleSearchKey(event)" autocomplete="off">
+            <button class="search-go-btn" onclick="doSearch()">Search</button>
+        </div>
+        <div class="engine-tabs">
+            <button class="engine-btn active" id="eng-google" onclick="setEngine('google')">🌐 Web</button>
+            <button class="engine-btn" id="eng-youtube" onclick="setEngine('youtube')">▶️ YouTube</button>
+            <button class="engine-btn" id="eng-books" onclick="setEngine('books')">📚 Books</button>
+        </div>
+        <div class="shortcut-chips">
+            <span>Quick:</span>
+            <button onclick="quickSearch('morning yoga routine')">Morning Yoga</button>
+            <button onclick="quickSearch('sleep meditation')">Sleep Meditation</button>
+            <button onclick="quickSearch('breathwork exercises')">Breathwork</button>
+            <button onclick="quickSearch('mindfulness for stress')">Mindfulness</button>
+        </div>
+    </div>
+
+    <!-- Relaxing Sound Player -->
+    <h2>🎵 Relaxing Sound Player</h2>
+    <div class="sound-player">
+        <p>Click a sound to play in the background. Click again to stop.</p>
+        <div class="sound-buttons">
+            <button class="sound-btn" onclick="toggleSound('rain', this)">🌧️ Rain</button>
+            <button class="sound-btn" onclick="toggleSound('ocean', this)">🌊 Ocean</button>
+            <button class="sound-btn" onclick="toggleSound('birds', this)">🐦 Birds</button>
+            <button class="sound-btn" onclick="toggleSound('wind', this)">🍃 Wind</button>
+        </div>
+        <audio id="sound-rain" src="https://cdn.pixabay.com/audio/2022/03/15/audio_8cb749e908.mp3" loop></audio>
+        <audio id="sound-ocean" src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3" loop></audio>
+        <audio id="sound-birds" src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
+        <audio id="sound-wind" src="https://cdn.pixabay.com/audio/2023/10/07/audio_4308b0619b.mp3" loop></audio>
+    </div>
+
+    <!-- Vortex Coherence Breathing -->
+    <h2>🌀 Vortex Breathing (Coherence)</h2>
+    <div class="vortex-container">
+        <p>5.5 seconds in, 5.5 seconds out. Synchronize your heart and mind.</p>
+        <div class="vortex-circle" id="vortexCircle"></div>
+        <div class="vortex-text" id="vortexText">Ready?</div>
+        <br>
+        <button class="btn read-more-btn" onclick="toggleVortex()" id="vortexBtn" style="width: auto;">Start Coherence</button>
+    </div>
+
+    <h2>🧠 Meditation Timer</h2>
+    <div class="meditation-container">
+        <p>Choose a duration, find a comfortable position, and press start.</p>
+        <div class="duration-buttons">
+            <button class="duration-btn" onclick="setDuration(1, this)">1 min</button>
+            <button class="duration-btn" onclick="setDuration(3, this)">3 min</button>
+            <button class="duration-btn active" onclick="setDuration(5, this)">5 min</button>
+            <button class="duration-btn" onclick="setDuration(10, this)">10 min</button>
+            <button class="duration-btn" onclick="setDuration(15, this)">15 min</button>
+        </div>
+        <div class="med-circle" id="medCircle"><span class="med-icon">🧘</span></div>
+        <div class="med-time" id="medTime">5:00</div>
+        <button class="med-btn" id="medBtn" onclick="startMeditation()">Start Meditation</button>
+        <div class="med-status" id="medStatus"></div>
+    </div>
+
+    <h2>🌬️ Calm Your Mind (4-7-8 Breathing)</h2>
+    <div class="breath-container">
+        <p>Press start and follow the circle to relax your nervous system.</p>
+        <div id="breathCircle" class="breath-circle"></div>
+        <div id="breathText" class="breath-text">Ready?</div>
+        <br>
+        <button class="btn read-more-btn" onclick="toggleBreathing()" id="breathBtn" style="width: auto;">Start Breathing</button>
+    </div>
+
+    <h2>Daily Yoga Poses <span style="font-size: 14px; color: #888; font-weight: normal;">(Click a pose to view)</span></h2>
+    <div class="yoga-grid">
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">🌳</div>
+            <div class="pose-name">Tree Pose</div>
+            <div class="pose-desc">Stand on one leg, foot to inner thigh. Hands in prayer.</div>
+        </div>
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">🐕</div>
+            <div class="pose-name">Downward Dog</div>
+            <div class="pose-desc">Hips up and back, straight spine, press heels down.</div>
+        </div>
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">🧎</div>
+            <div class="pose-name">Child's Pose</div>
+            <div class="pose-desc">Knees apart, sit back on heels, arms forward. Rest.</div>
+        </div>
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">⚔️</div>
+            <div class="pose-name">Warrior II</div>
+            <div class="pose-desc">Lunge deep, arms out parallel. Gaze over front hand.</div>
+        </div>
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">🐍</div>
+            <div class="pose-name">Cobra Pose</div>
+            <div class="pose-desc">Lie on stomach, lift chest using back muscles.</div>
+        </div>
+        <div class="yoga-pose" onclick="togglePose(this)">
+            <div class="pose-emoji">🧍</div>
+            <div class="pose-name">Mountain Pose</div>
+            <div class="pose-desc">Stand tall, feet together, shoulders relaxed. Ground down.</div>
+        </div>
+    </div>
+
+    <h2>📖 Wellness Reading List</h2>
+    <div class="book-list">
+        <div class="book-card">
+            <div class="book-title">📚 Yoga: An Annotated Bibliography of Works in English, 1981–2005</div>
+            <div class="book-author">By Daren Callahan (2007, McFarland)</div>
+            <div class="book-buttons">
+                <button class="btn read-more-btn" onclick="toggleDesc(0)">Read more ▾</button>
+                <a href="https://www.google.com/search?q=Yoga+An+Annotated+Bibliography+of+Works+in+English+1981-2005+Daren+Callahan" target="_blank" class="btn download-btn">Find Book 🔗</a>
+            </div>
+            <p class="book-desc">A comprehensive reference work listing and annotating over 2,400 English-language yoga texts.</p>
+        </div>
+        <div class="book-card">
+            <div class="book-title">🪷 Autobiography of a Yogi</div>
+            <div class="book-author">By Paramahansa Yogananda (1946)</div>
+            <div class="book-buttons">
+                <button class="btn read-more-btn" onclick="toggleDesc(1)">Read more ▾</button>
+                <a href="https://www.google.com/search?q=Autobiography+of+a+Yogi+Paramahansa+Yogananda" target="_blank" class="btn download-btn">Find Book 🔗</a>
+            </div>
+            <p class="book-desc">A spiritual classic that recounts Yogananda's life and his search for his guru, introducing Western readers to the science of Kriya Yoga meditation.</p>
+        </div>
+        <div class="book-card">
+            <div class="book-title">🕉️ Hatha Yoga Pradipika</div>
+            <div class="book-author">By Swami Svatmarama (15th century)</div>
+            <div class="book-buttons">
+                <button class="btn read-more-btn" onclick="toggleDesc(2)">Read more ▾</button>
+                <a href="https://www.google.com/search?q=Hatha+Yoga+Pradipika+PDF+public+domain" target="_blank" class="btn download-btn">Download PDF ⬇️</a>
+            </div>
+            <p class="book-desc">One of the three classic texts of Hatha Yoga. Covers asana, pranayama, shatkarma, mudra, and bandha.</p>
+        </div>
+    </div>
+
+    <h2>📝 Gratitude Journal</h2>
+    <div class="gratitude-box">
+        <p>Write down 3 things you are grateful for today.</p>
+        <textarea id="gratitudeInput" placeholder="1. &#10;2. &#10;3. "></textarea>
+        <button class="save-gratitude-btn" onclick="saveGratitude()">💾 Save Today's Gratitude</button>
+        <div class="log-label">Today's entry:</div>
+        <div class="gratitude-log-text" id="gratitudeLog">No gratitude entry yet today.</div>
+    </div>
+
+    <h2>✨ Set Today's Intention</h2>
+    <div class="intention-box">
+        <input type="text" id="intentionInput" placeholder="e.g., I will be present and patient today" onkeypress="handleEnter(event)">
+        <button onclick="saveIntention()">Save Intention</button>
+        <div id="savedText" class="saved-intention"></div>
+    </div>
+
+    <div class="share-section">
+        <h2>📢 Share ZenSpace</h2>
+        <p>Help others find their path to wellness!</p>
+        <div class="share-buttons">
+            <a href="#" id="waShare" target="_blank" class="share-btn wa">WhatsApp</a>
+            <a href="#" id="twShare" target="_blank" class="share-btn tw">Twitter / X</a>
+            <a href="#" id="fbShare" target="_blank" class="share-btn fb">Facebook</a>
+            <button onclick="copyLink()" class="share-btn copy">Copy Link</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Made with 💚 for your wellness journey. ZenSpace &copy; 2024</p>
+        <div class="creator-name">Created by Aravind Venkat</div>
+    </div>
+</div>
+
+<script>
+    function todayKey() {
+        var d = new Date();
+        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    }
+
+    function setGreeting() {
+        var hour = new Date().getHours();
+        var text = "", sub = "";
+        if (hour >= 5 && hour < 12) {
+            text = "🌅 Good Morning, Aravind!";
+            sub = "Start your day with intention and presence.";
+        } else if (hour >= 12 && hour < 17) {
+            text = "☀️ Good Afternoon, Aravind!";
+            sub = "Take a moment to breathe and reset.";
+        } else if (hour >= 17 && hour < 21) {
+            text = "🌇 Good Evening, Aravind!";
+            sub = "Unwind and let go of the day's stress.";
+        } else {
+            text = "🌙 Good Night, Aravind!";
+            sub = "Time to rest. Your body and mind deserve peace.";
+        }
+        document.getElementById('greetingText').textContent = text;
+        document.getElementById('greetingSub').textContent = sub;
+    }
+
+    var quotes = [
+        "The present moment is filled with joy and happiness. If you are attentive, you will see it. - Thich Nhat Hanh",
+        "Yoga is the journey of the self, through the self, to the self. - Bhagavad Gita",
+        "The body is your temple. Keep it pure and clean for the soul to reside in. - B.K.S. Iyengar",
+        "Peace comes from within. Do not seek it without. - Buddha",
+        "In the middle of difficulty lies opportunity. - Albert Einstein",
+        "Be where you are, not where you think you should be. - Unknown",
+        "Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh",
+        "The greatest weapon against stress is our ability to choose one thought over another. - William James",
+        "You cannot always control what goes on outside. But you can always control what goes on inside. - Wayne Dyer",
+        "Silence is not empty. It is full of answers. - Unknown",
+        "When you realize nothing is lacking, the whole world belongs to you. - Lao Tzu",
+        "The mind is everything. What you think you become. - Buddha"
+    ];
+
+    function newQuote() {
+        var randomIndex = Math.floor(Math.random() * quotes.length);
+        var parts = quotes[randomIndex].split(" - ");
+        document.getElementById('quoteText').textContent = '"' + parts[0] + '"';
+        document.getElementById('quoteAuthor').textContent = '— ' + parts[1];
+    }
+
+    // --- Wellness Quick Search ---
+    var activeEngine = 'google';
+
+    function setEngine(eng) {
+        activeEngine = eng;
+        ['google', 'youtube', 'books'].forEach(function(e) {
+            document.getElementById('eng-' + e).classList.toggle('active', e === eng);
+        });
+    }
+
+    function handleSearchKey(e) { if (e.key === 'Enter') doSearch(); }
+
+    function doSearch() {
+        var q = document.getElementById('searchInput').value.trim();
+        if (!q) return;
+        var url;
+        if (activeEngine === 'youtube') {
+            url = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q + ' yoga meditation');
+        } else if (activeEngine === 'books') {
+            url = 'https://www.google.com/search?tbm=bks&q=' + encodeURIComponent(q + ' wellness');
+        } else {
+            url = 'https://www.google.com/search?q=' + encodeURIComponent(q + ' wellness yoga');
+        }
+        window.open(url, '_blank', 'noopener');
+    }
+
+    function quickSearch(term) {
+        document.getElementById('searchInput').value = term;
+        doSearch();
+    }
+
+    // --- Sound Player ---
+    var currentSound = null;
+    var currentSoundBtn = null;
+
+    function toggleSound(id, btn) {
+        var audio = document.getElementById('sound-' + id);
+        if (currentSound === audio) {
+            audio.pause();
+            currentSound = null;
+            btn.classList.remove('active');
+            currentSoundBtn = null;
+        } else {
+            if (currentSound) { currentSound.pause(); currentSoundBtn.classList.remove('active'); }
+            audio.play();
+            currentSound = audio;
+            currentSoundBtn = btn;
+            btn.classList.add('active');
+        }
+    }
+
+    // --- Vortex Coherence Breathing ---
+    var vortexInterval = null;
+    var isVortexActive = false;
+
+    function toggleVortex() {
+        var circle = document.getElementById('vortexCircle');
+        var text = document.getElementById('vortexText');
+        var btn = document.getElementById('vortexBtn');
+        if (isVortexActive) {
+            clearInterval(vortexInterval);
+            isVortexActive = false;
+            btn.innerText = "Start Coherence";
+            text.innerText = "Ready?";
+            circle.style.transition = 'transform 0.5s ease';
+            circle.classList.remove('in');
+        } else {
+            isVortexActive = true;
+            btn.innerText = "Stop Coherence";
+            circle.style.transition = 'transform 5.5s ease-in-out, box-shadow 5.5s ease-in-out';
+            text.innerText = "Breathe In...";
+            circle.classList.add('in');
+            vortexInterval = setInterval(function() {
+                if (circle.classList.contains('in')) {
+                    text.innerText = "Breathe Out...";
+                    circle.classList.remove('in');
+                } else {
+                    text.innerText = "Breathe In...";
+                    circle.classList.add('in');
+                }
+            }, 5500);
+        }
+    }
+
+    // --- Dark Mode ---
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark');
+        var btn = document.getElementById('darkBtn');
+        if (document.body.classList.contains('dark')) {
+            btn.textContent = '☀️';
+            localStorage.setItem('zenspace_dark', 'true');
+        } else {
+            btn.textContent = '🌙';
+            localStorage.setItem('zenspace_dark', 'false');
+        }
+    }
+
+    // --- Meditation ---
+    var medDuration = 300, medRemaining = 300, medInterval = null, isMeditating = false;
+
+    function setDuration(minutes, btn) {
+        if (isMeditating) return;
+        medDuration = minutes * 60;
+        medRemaining = medDuration;
+        updateMedDisplay();
+        document.querySelectorAll('.duration-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+    }
+
+    function updateMedDisplay() {
+        var mins = Math.floor(medRemaining / 60);
+        var secs = medRemaining % 60;
+        document.getElementById('medTime').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    function startMeditation() {
+        var btn = document.getElementById('medBtn');
+        var circle = document.getElementById('medCircle');
+        var status = document.getElementById('medStatus');
+        if (isMeditating) {
+            clearInterval(medInterval);
+            isMeditating = false;
+            btn.textContent = 'Start Meditation';
+            btn.classList.remove('stop');
+            circle.classList.remove('pulse');
+            status.textContent = 'Meditation stopped';
+            medRemaining = medDuration;
+            updateMedDisplay();
+        } else {
+            isMeditating = true;
+            btn.textContent = 'Stop';
+            btn.classList.add('stop');
+            circle.classList.add('pulse');
+            status.textContent = 'Breathe deeply...';
+            medInterval = setInterval(function() {
+                medRemaining--;
+                updateMedDisplay();
+                if (medRemaining <= 0) {
+                    clearInterval(medInterval);
+                    isMeditating = false;
+                    btn.textContent = 'Start Meditation';
+                    btn.classList.remove('stop');
+                    circle.classList.remove('pulse');
+                    status.textContent = 'Session complete! Namaste.';
+                    medRemaining = medDuration;
+                    updateMedDisplay();
+                }
+            }, 1000);
+        }
+    }
+
+    // --- 4-7-8 Breathing ---
+    var breathTimeouts = [], isBreathing = false;
+
+    function toggleBreathing() {
+        var circle = document.getElementById('breathCircle');
+        var text = document.getElementById('breathText');
+        var btn = document.getElementById('breathBtn');
+        if (isBreathing) {
+            breathTimeouts.forEach(clearTimeout);
+            breathTimeouts = [];
+            isBreathing = false;
+            btn.innerText = "Start Breathing";
+            text.innerText = "Ready?";
+            circle.style.transition = 'transform 0.5s ease';
+            circle.classList.remove('shrink');
+        } else {
+            isBreathing = true;
+            btn.innerText = "Stop Breathing";
+            circle.style.transition = 'none';
+            circle.classList.add('shrink');
+            void circle.offsetWidth;
+            circle.style.transition = 'transform 4s ease-in-out';
+            breathTimeouts.push(setTimeout(runBreathCycle, 200));
+        }
+    }
+
+    function runBreathCycle() {
+        var circle = document.getElementById('breathCircle');
+        var text = document.getElementById('breathText');
+        text.innerText = "Breathe In...";
+        circle.classList.remove('shrink');
+        breathTimeouts.push(setTimeout(function() { text.innerText = "Hold..."; }, 4000));
+        breathTimeouts.push(setTimeout(function() { text.innerText = "Breathe Out..."; circle.classList.add('shrink'); }, 11000));
+        breathTimeouts.push(setTimeout(function() { if (isBreathing) runBreathCycle(); }, 19000));
+    }
+
+    // --- Social ---
+    var siteUrl = window.location.href;
+    var shareText = "Check out ZenSpace, a free app for yoga, breathing, and wellness! ";
+    document.getElementById('waShare').href = 'https://wa.me/?text=' + encodeURIComponent(shareText + siteUrl);
+    document.getElementById('twShare').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(siteUrl);
+    document.getElementById('fbShare').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(siteUrl);
+
+    function copyLink() {
+        navigator.clipboard.writeText(siteUrl);
+        alert("Link copied to clipboard!");
+    }
+
+    // --- Yoga ---
+    function togglePose(el) { el.classList.toggle('active'); }
+
+    // --- Books ---
+    function toggleDesc(index) {
+        var desc = document.querySelectorAll('.book-desc')[index];
+        var btn = document.querySelectorAll('.book-buttons .read-more-btn')[index];
+        if (desc.classList.contains('show')) {
+            desc.classList.remove('show');
+            btn.innerHTML = 'Read more ▾';
+        } else {
+            desc.classList.add('show');
+            btn.innerHTML = 'Show less ▴';
+        }
+    }
+
+    // --- Gratitude ---
+    function saveGratitude() {
+        var text = document.getElementById('gratitudeInput').value.trim();
+        if (text === '') { alert("Write at least one thing you are grateful for!"); return; }
+        localStorage.setItem('zenspace_gratitude_' + todayKey(), text);
+        document.getElementById('gratitudeLog').textContent = text;
+        document.getElementById('gratitudeInput').value = '';
+        alert("Gratitude saved!");
+    }
+
+    // --- Intention ---
+    function handleEnter(e) { if (e.key === "Enter") saveIntention(); }
+    function saveIntention() {
+        var input = document.getElementById('intentionInput');
+        if (input.value.trim() === '') { alert("Please type an intention first!"); return; }
+        localStorage.setItem('zenspace_intention', input.value);
+        document.getElementById('savedText').style.display = 'block';
+        document.getElementById('savedText').innerHTML = "✨ Your intention today: " + input.value;
+        input.value = '';
+    }
+
+    // --- On Load ---
+    setGreeting();
+    newQuote();
+
+    if (localStorage.getItem('zenspace_dark') === 'true') {
+        document.body.classList.add('dark');
+        document.getElementById('darkBtn').textContent = '☀️';
+    }
+
+    var savedInt = localStorage.getItem('zenspace_intention');
+    if (savedInt) {
+        document.getElementById('savedText').style.display = 'block';
+        document.getElementById('savedText').innerHTML = "✨ Your intention today: " + savedInt;
+    }
+
+    var savedGrat = localStorage.getItem('zenspace_gratitude_' + todayKey());
+    if (savedGrat) { document.getElementById('gratitudeLog').textContent = savedGrat; }
+</script>
+
+</body>
+</html>
