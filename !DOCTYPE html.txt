@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kriya Health Fitness — Move. Nourish. Transform.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vanilla: '#FAF5EE',
+                        vanillaDark: '#F0E8DD',
+                        cream: '#FFF8F0',
+                        ink: '#2D2A26',
+                        inkMuted: '#8A8580',
+                        inkFaint: '#B5B0AA',
+                        brand: '#E85D04',
+                        brandLight: '#FF7B2E',
+                        brandDark: '#C44E03',
+                        mint: '#22C55E',
+                        sky: '#3B82F6',
+                    },
+                    fontFamily: {
+                        inter: ['Inter','system-ui','sans-serif'],
+                        syne: ['Syne','sans-serif'],
+                    },
+                    letterSpacing: { tightest: '-0.05em' }
+                }
+            }
+        }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',system-ui,sans-serif;background:#FAF5EE;color:#2D2A26;overflow-x:hidden;transition:background .4s,color .4s}
+        body.dark-mode{background:#0A0A0A;color:#EEEEEE}
+        body.dark-mode .card-b{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.07)}
+        body.dark-mode .card-b:hover{border-color:rgba(232,93,4,.25)}
+        body.dark-mode .glass-b{background:rgba(10,10,10,.85);border-color:rgba(255,255,255,.07)}
+        body.dark-mode .ink-t{color:#EEEEEE}
+        body.dark-mode .ink-m{color:rgba(255,255,255,.5)}
+        body.dark-mode .ink-f{color:rgba(255,255,255,.3)}
+        body.dark-mode .bg-alt{background:#080808}
+        body.dark-mode .input-f{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:#EEE}
+        body.dark-mode .input-f::placeholder{color:rgba(255,255,255,.2)}
+        body.dark-mode .grad-h{background:linear-gradient(to bottom,#0A0A0A,#1a0a00,#0A0A0A)}
+        body.dark-mode .grad-s{background:linear-gradient(to bottom,#0A0A0A,#0f0800,#0A0A0A)}
+        body.dark-mode .overlay-img{background:linear-gradient(to top,#0A0A0A,transparent 60%)}
+        body.dark-mode .border-s{border-color:rgba(255,255,255,.06)}
+        body.dark-mode .foot-bg{background:#080808}
+        body.dark-mode .stat-bg{background:rgba(255,255,255,.02)}
+        body.dark-mode .mob-menu{background:rgba(10,10,10,.97)}
+        body.dark-mode .faq-a{background:rgba(255,255,255,.03)}
+        body.dark-mode .timer-ring-bg{stroke:rgba(255,255,255,.06)}
+        body.dark-mode .toggle-bg{background:rgba(255,255,255,.1)}
+        body.dark-mode .toast-b{background:rgba(10,10,10,.9);border-color:rgba(255,255,255,.08)}
+        body.dark-mode .back-btn{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)}
+
+        .card-b{background:#FFF;border:1px solid rgba(0,0,0,.06);transition:all .4s}
+        .card-b:hover{border-color:rgba(232,93,4,.25);box-shadow:0 8px 32px rgba(232,93,4,.06)}
+        .glass-b{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,.06);box-shadow:0 4px 24px rgba(0,0,0,.04);transition:background .4s,border-color .4s}
+        .ink-t{color:#2D2A26;transition:color .4s}
+        .ink-m{color:#8A8580;transition:color .4s}
+        .ink-f{color:#B5B0AA;transition:color .4s}
+        .bg-alt{background:#F0E8DD;transition:background .4s}
+        .input-f{background:#FFF;border:1px solid rgba(0,0,0,.08);color:#2D2A26;transition:all .4s}
+        .input-f::placeholder{color:#B5B0AA}
+        .grad-h{background:linear-gradient(to bottom,#FAF5EE,#FFF5EB,#FFEEDD);transition:background .4s}
+        .grad-s{background:linear-gradient(to bottom,#FAF5EE,#FFF8F0,#FAF5EE);transition:background .4s}
+        .overlay-img{background:linear-gradient(to top,rgba(250,245,238,.9),transparent 60%)}
+        .border-s{border-color:rgba(0,0,0,.06);transition:border-color .4s}
+        .foot-bg{background:#F0E8DD;transition:background .4s}
+        .stat-bg{background:rgba(0,0,0,.02);transition:background .4s}
+        .mob-menu{background:rgba(250,245,238,.97);transition:background .4s}
+        .faq-a{background:rgba(0,0,0,.02);transition:background .4s}
+        .timer-ring-bg{stroke:rgba(0,0,0,.06);transition:stroke .4s}
+        .toggle-bg{background:rgba(0,0,0,.08);transition:background .4s}
+        .toast-b{background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.06);transition:all .4s}
+        .back-btn{background:#FFF;border:1px solid rgba(0,0,0,.08);transition:all .4s}
+
+        .btn-p{background:linear-gradient(to right,#E85D04,#C44E03);box-shadow:0 0 15px rgba(232,93,4,.3);transition:all .3s;color:#FFF}
+        .btn-p:hover{box-shadow:0 0 30px rgba(232,93,4,.4);filter:brightness(1.1)}
+
+        .text-g{background:linear-gradient(to right,#2D2A26,rgba(45,42,38,.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:all .4s}
+        body.dark-mode .text-g{background:linear-gradient(to right,#EEE,rgba(255,255,255,.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .text-gb{background:linear-gradient(to right,#E85D04,#C44E03);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .afu{opacity:0;animation:fadeInUp .8s ease forwards}
+        .ad1{animation-delay:.1s}.ad2{animation-delay:.2s}.ad3{animation-delay:.3s}.ad4{animation-delay:.4s}.ad5{animation-delay:.5s}
+
+        @keyframes pulse-ring{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.8);opacity:0}}
+        .pulse-r::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid #E85D04;animation:pulse-ring 2s cubic-bezier(0,0,.2,1) infinite}
+
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .float-a{animation:float 4s ease-in-out infinite}
+
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+        .scroll-i{animation:bounce 2s infinite}
+
+        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        .shimmer-t{background:linear-gradient(90deg,#E85D04,#FF7B2E,#C44E03,#FF7B2E,#E85D04);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
+
+        @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        .spin-s{animation:spin-slow 20s linear infinite}
+
+        .trainer-card img{filter:grayscale(100%);transition:filter .7s}
+        .trainer-card:hover img{filter:grayscale(0%)}
+        .trainer-ov{background:linear-gradient(to top,rgba(250,245,238,1) 0%,rgba(250,245,238,.4) 50%,transparent 100%);transition:background .4s}
+        body.dark-mode .trainer-ov{background:linear-gradient(to top,rgba(10,10,10,1) 0%,rgba(10,10,10,.4) 50%,transparent 100%)}
+
+        .friend-card{transition:all .5s;background:#FFF}
+        body.dark-mode .friend-card{background:rgba(255,255,255,.04)}
+        .friend-card:hover{transform:translateY(-6px);border-color:rgba(232,93,4,.3);box-shadow:0 12px 40px rgba(232,93,4,.08)}
+        .friend-card:hover .friend-av{border-color:rgba(232,93,4,.5);box-shadow:0 0 20px rgba(232,93,4,.15)}
+
+        .creator-glow{background:linear-gradient(135deg,rgba(232,93,4,.06),rgba(232,93,4,.01));border:1px solid rgba(232,93,4,.12)}
+
+        .mob-menu{transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+        .mob-menu.open{transform:translateX(0)}
+
+        .toast-n{transform:translateY(100px);opacity:0;transition:all .4s}
+        .toast-n.show{transform:translateY(0);opacity:1}
+
+        .faq-content{max-height:0;overflow:hidden;transition:max-height .4s ease}
+        .faq-content.open{max-height:300px}
+        .faq-chevron{transition:transform .3s}
+        .faq-chevron.open{transform:rotate(180deg)}
+
+        .progress-ring{transform:rotate(-90deg)}
+        .progress-ring-circle{transition:stroke-dashoffset .8s ease}
+
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:#FAF5EE}
+        ::-webkit-scrollbar-thumb{background:#E85D04;border-radius:3px}
+        body.dark-mode ::-webkit-scrollbar-track{background:#0A0A0A}
+
+        html{scroll-behavior:smooth}
+
+        .calorie-bar{height:8px;border-radius:4px;background:rgba(0,0,0,.06);overflow:hidden;transition:background .4s}
+        body.dark-mode .calorie-bar{background:rgba(255,255,255,.06)}
+        .calorie-fill{height:100%;border-radius:4px;transition:width 1s ease}
+
+        .recipe-card{overflow:hidden}
+        .recipe-card img{transition:transform .7s}
+        .recipe-card:hover img{transform:scale(1.08)}
+    </style>
+</head>
+<body>
+
+<!-- Toast -->
+<div id="toast" class="toast-n fixed bottom-6 right-6 z-[100] toast-b rounded-xl px-6 py-4 flex items-center gap-3">
+    <i data-lucide="check-circle" class="w-5 h-5 text-mint"></i>
+    <span id="toast-msg" class="text-sm font-medium ink-t">Done!</span>
+</div>
+
+<!-- Navigation -->
+<nav class="fixed top-5 left-1/2 -translate-x-1/2 z-50 glass-b rounded-full px-5 py-2.5 flex items-center justify-between w-[94%] max-w-5xl">
+    <a href="#" class="font-syne font-bold text-lg tracking-tight flex items-center gap-2 ink-t">
+        <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center" style="box-shadow:0 0 15px rgba(232,93,4,.3)">
+            <i data-lucide="lotus" class="w-4 h-4 text-white"></i>
+        </div>
+        Kriya
+    </a>
+    <div class="hidden lg:flex items-center gap-7">
+        <a href="#programs" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Programs</a>
+        <a href="#tools" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Tools</a>
+        <a href="#recipes" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Recipes</a>
+        <a href="#trainers" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Trainers</a>
+        <a href="#community" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Community</a>
+        <a href="#pricing" class="text-[11px] font-medium uppercase tracking-widest ink-m hover:ink-t transition-colors">Pricing</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+        <button onclick="toggleDark()" class="w-9 h-9 rounded-full toggle-bg flex items-center justify-center hover:bg-brand/20 transition-colors" title="Toggle theme">
+            <i data-lucide="sun-moon" class="w-4 h-4 ink-m"></i>
+        </button>
+        <button onclick="showToast('Welcome back!')" class="text-[11px] font-semibold uppercase tracking-wide ink-m hover:ink-t px-3 py-2 transition-colors">Log In</button>
+        <button onclick="showToast('Starting your free trial!')" class="btn-p text-[11px] font-bold uppercase tracking-wide px-5 py-2 rounded-full">Join Free</button>
+    </div>
+    <button class="lg:hidden ink-m hover:ink-t transition-colors" onclick="toggleMenu()"><i data-lucide="menu" class="w-5 h-5"></i></button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mob-menu fixed inset-0 z-[60] flex flex-col items-center justify-center gap-7">
+    <button onclick="toggleMenu()" class="absolute top-7 right-7 ink-m hover:ink-t"><i data-lucide="x" class="w-6 h-6"></i></button>
+    <a href="#programs" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Programs</a>
+    <a href="#tools" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Tools</a>
+    <a href="#recipes" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Recipes</a>
+    <a href="#trainers" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Trainers</a>
+    <a href="#community" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Community</a>
+    <a href="#pricing" onclick="toggleMenu()" class="font-syne text-2xl font-semibold ink-t hover:text-brand transition-colors">Pricing</a>
+    <button onclick="toggleDark();toggleMenu()" class="mt-4 w-12 h-12 rounded-full toggle-bg flex items-center justify-center"><i data-lucide="sun-moon" class="w-5 h-5 ink-m"></i></button>
+    <button onclick="showToast('Starting your free trial!');toggleMenu();" class="btn-p text-sm font-bold uppercase tracking-wide px-8 py-3 rounded-full mt-2">Join Free</button>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section class="grad-h min-h-screen flex items-center relative overflow-hidden">
+    <div class="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[128px] pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-6 pt-28 pb-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="flex flex-col gap-6">
+            <div class="afu ad1 flex items-center gap-2">
+                <span class="relative w-2 h-2 rounded-full bg-brand pulse-r"></span>
+                <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand">Now open — Limited spots</span>
+            </div>
+            <h1 class="afu ad2 font-syne text-5xl md:text-7xl font-semibold leading-[.95] tracking-tightest">
+                <span class="text-g">Move.</span><br>
+                <span class="text-gb">Nourish.</span><br>
+                <span class="text-g">Transform.</span>
+            </h1>
+            <p class="afu ad3 text-sm md:text-[15px] font-light leading-relaxed ink-m max-w-md">Holistic health & fitness rooted in science and mindful practice. Your body is your temple — we help you worship it.</p>
+            <div class="afu ad4 flex flex-wrap items-center gap-4 mt-2">
+                <button onclick="showToast('Welcome to Kriya!')" class="btn-p text-sm font-bold uppercase tracking-wide px-8 py-3.5 rounded-full flex items-center gap-2">
+                    <span>Start Your Journey</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <a href="#tools" class="flex items-center gap-3 text-sm font-medium ink-m hover:ink-t transition-colors group">
+                    <span class="w-10 h-10 rounded-full border border-s flex items-center justify-center group-hover:border-brand/40 transition-colors"><i data-lucide="timer" class="w-4 h-4"></i></span>
+                    Try Workout Timer
+                </a>
+            </div>
+            <div class="afu ad5 flex items-center gap-6 mt-4">
+                <div class="flex -space-x-2">
+                    <img src="https://picsum.photos/seed/kf1/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-vanilla object-cover" alt="">
+                    <img src="https://picsum.photos/seed/kf2/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-vanilla object-cover" alt="">
+                    <img src="https://picsum.photos/seed/kf3/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-vanilla object-cover" alt="">
+                    <img src="https://picsum.photos/seed/kf4/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-vanilla object-cover" alt="">
+                </div>
+                <div>
+                    <div class="flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 text-brand fill-brand"></i><i data-lucide="star" class="w-3 h-3 text-brand fill-brand"></i><i data-lucide="star" class="w-3 h-3 text-brand fill-brand"></i><i data-lucide="star" class="w-3 h-3 text-brand fill-brand"></i><i data-lucide="star" class="w-3 h-3 text-brand fill-brand"></i></div>
+                    <span class="text-[11px] ink-m mt-0.5 block">3,200+ happy members</span>
+                </div>
+            </div>
+        </div>
+        <div class="afu ad4 relative">
+            <div class="relative rounded-3xl overflow-hidden" style="box-shadow:0 20px 60px rgba(0,0,0,.08),0 0 80px rgba(232,93,4,.06)">
+                <img src="https://picsum.photos/seed/kriya-hero/800/600.jpg" alt="Kriya Fitness" class="w-full h-[500px] object-cover">
+                <div class="absolute inset-0 overlay-img"></div>
+                <div class="absolute bottom-6 left-6 right-6 z-10 flex justify-between">
+                    <div class="glass-b rounded-xl px-4 py-3"><span class="text-[10px] uppercase tracking-widest ink-m block">Members</span><span class="text-lg font-semibold font-syne ink-t">3,200+</span></div>
+                    <div class="glass-b rounded-xl px-4 py-3"><span class="text-[10px] uppercase tracking-widest ink-m block">Programs</span><span class="text-lg font-semibold font-syne ink-t">60+</span></div>
+                    <div class="glass-b rounded-xl px-4 py-3"><span class="text-[10px] uppercase tracking-widest ink-m block">Rating</span><span class="text-lg font-semibold font-syne text-brand">4.9★</span></div>
+                </div>
+            </div>
+            <div class="absolute -top-4 -right-4 glass-b rounded-2xl px-4 py-3 float-a z-20">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-mint/10 flex items-center justify-center"><i data-lucide="heart-pulse" class="w-4 h-4 text-mint"></i></div>
+                    <div><span class="text-[10px] ink-m block">Active Now</span><span class="text-xs font-semibold text-mint">147 people</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-i"><i data-lucide="chevron-down" class="w-5 h-5 ink-f"></i></div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<section class="border-y border-s stat-bg">
+    <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center gsap-stat"><span class="text-3xl md:text-4xl font-syne font-semibold tracking-tightest ink-t" data-count="3200">0</span><span class="text-brand text-3xl md:text-4xl font-syne font-semibold">+</span><span class="text-[10px] uppercase tracking-[.2em] ink-m block mt-2">Members</span></div>
+        <div class="text-center gsap-stat"><span class="text-3xl md:text-4xl font-syne font-semibold tracking-tightest ink-t" data-count="60">0</span><span class="text-brand text-3xl md:text-4xl font-syne font-semibold">+</span><span class="text-[10px] uppercase tracking-[.2em] ink-m block mt-2">Programs</span></div>
+        <div class="text-center gsap-stat"><span class="text-3xl md:text-4xl font-syne font-semibold tracking-tightest ink-t" data-count="18">0</span><span class="text-brand text-3xl md:text-4xl font-syne font-semibold">+</span><span class="text-[10px] uppercase tracking-[.2em] ink-m block mt-2">Trainers</span></div>
+        <div class="text-center gsap-stat"><span class="text-3xl md:text-4xl font-syne font-semibold tracking-tightest ink-t" data-count="99">0</span><span class="text-brand text-3xl md:text-4xl font-syne font-semibold">%</span><span class="text-[10px] uppercase tracking-[.2em] ink-m block mt-2">Satisfaction</span></div>
+    </div>
+</section>
+
+<!-- ==================== PROGRAMS ==================== -->
+<section id="programs" class="py-24 bg-alt">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Our Programs</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Find Your Path</h2>
+            <p class="text-sm ink-m mt-4 max-w-lg mx-auto leading-relaxed">From gentle yoga flows to intense powerlifting — we have a program crafted for every body and every goal.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Power Kriya program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-power/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-brand px-3 py-1 rounded-full">Strength</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Power Kriya</h3><p class="text-sm ink-m leading-relaxed mb-4">Build raw, functional strength with progressive overload and compound movements.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 12 Weeks</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Prana Flow program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-yoga/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-brand px-3 py-1 rounded-full">Yoga</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Prana Flow</h3><p class="text-sm ink-m leading-relaxed mb-4">Dynamic vinyasa flows combining breathwork, flexibility, and meditation.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 8 Weeks</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Agni HIIT program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-hiit/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-brand px-3 py-1 rounded-full">Cardio</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Agni HIIT</h3><p class="text-sm ink-m leading-relaxed mb-4">Fire-powered interval training to torch fat and boost cardiovascular endurance.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 6 Weeks</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Sattva Nutrition program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-nutrition/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-mint px-3 py-1 rounded-full">Nutrition</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Sattva Nutrition</h3><p class="text-sm ink-m leading-relaxed mb-4">Clean eating plans based on Ayurvedic principles and modern macro tracking.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Ongoing</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Warrior Boxing program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-boxing/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-brand px-3 py-1 rounded-full">Combat</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Warrior Boxing</h3><p class="text-sm ink-m leading-relaxed mb-4">Learn striking, defense, and conditioning in our dedicated boxing studio.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 10 Weeks</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+            <div class="group card-b rounded-2xl overflow-hidden prog-card cursor-pointer" onclick="showToast('Exploring Restore Recovery program!')">
+                <div class="relative h-56 overflow-hidden"><img src="https://picsum.photos/seed/kriya-recover/600/400.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 overlay-img"></div><span class="absolute top-4 left-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white bg-sky px-3 py-1 rounded-full">Recovery</span></div>
+                <div class="p-6"><h3 class="font-syne text-lg font-semibold ink-t mb-2">Restore & Recover</h3><p class="text-sm ink-m leading-relaxed mb-4">Cryotherapy, saunas, and guided meditation for complete mind-body recovery.</p><div class="flex items-center justify-between"><span class="text-[10px] uppercase tracking-widest ink-f flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Ongoing</span><span class="text-brand"><i data-lucide="arrow-up-right" class="w-5 h-5"></i></span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TOOLS: TIMER + CALORIE COUNTER + BMI ==================== -->
+<section id="tools" class="py-24 grad-s relative">
+    <div class="absolute top-1/2 left-0 w-[400px] h-[400px] bg-brand/4 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Free Tools</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Your Fitness<br>Toolkit</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Workout Timer -->
+            <div class="card-b rounded-2xl p-8 text-center tool-card">
+                <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mx-auto mb-6"><i data-lucide="timer" class="w-5 h-5 text-brand"></i></div>
+                <h3 class="font-syne text-lg font-semibold ink-t mb-6">Workout Timer</h3>
+                <div class="relative inline-block mb-6">
+                    <svg class="progress-ring w-40 h-40" viewBox="0 0 160 160">
+                        <circle class="timer-ring-bg" cx="80" cy="80" r="70" fill="none" stroke-width="6"/>
+                        <circle id="timerCircle" class="progress-ring-circle" cx="80" cy="80" r="70" fill="none" stroke="#E85D04" stroke-width="6" stroke-linecap="round" stroke-dasharray="439.82" stroke-dashoffset="0"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span id="timerDisplay" class="text-3xl font-syne font-semibold ink-t">0:30</span>
+                    </div>
+                </div>
+                <div class="flex gap-2 justify-center mb-4">
+                    <button onclick="setTimer(30)" class="text-[10px] uppercase tracking-widest ink-m px-3 py-1.5 rounded-full border border-s hover:border-brand/40 hover:text-brand transition-all">30s</button>
+                    <button onclick="setTimer(60)" class="text-[10px] uppercase tracking-widest ink-m px-3 py-1.5 rounded-full border border-s hover:border-brand/40 hover:text-brand transition-all">60s</button>
+                    <button onclick="setTimer(90)" class="text-[10px] uppercase tracking-widest ink-m px-3 py-1.5 rounded-full border border-s hover:border-brand/40 hover:text-brand transition-all">90s</button>
+                    <button onclick="setTimer(120)" class="text-[10px] uppercase tracking-widest ink-m px-3 py-1.5 rounded-full border border-s hover:border-brand/40 hover:text-brand transition-all">2min</button>
+                </div>
+                <div class="flex gap-2 justify-center">
+                    <button onclick="startTimer()" id="timerStartBtn" class="btn-p text-xs font-bold uppercase tracking-wide px-6 py-2.5 rounded-full">Start</button>
+                    <button onclick="resetTimer()" class="text-xs font-bold uppercase tracking-wide px-6 py-2.5 rounded-full border border-s ink-m hover:ink-t transition-all">Reset</button>
+                </div>
+            </div>
+            <!-- Calorie Counter -->
+            <div class="card-b rounded-2xl p-8 tool-card">
+                <div class="w-12 h-12 rounded-xl bg-mint/10 flex items-center justify-center mx-auto mb-6"><i data-lucide="flame" class="w-5 h-5 text-mint"></i></div>
+                <h3 class="font-syne text-lg font-semibold ink-t mb-6 text-center">Calorie Tracker</h3>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-[10px] uppercase tracking-widest ink-m">Protein</span><span class="text-xs font-semibold ink-t" id="proteinVal">0g</span></div>
+                        <div class="calorie-bar"><div id="proteinBar" class="calorie-fill bg-brand" style="width:0%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-[10px] uppercase tracking-widest ink-m">Carbs</span><span class="text-xs font-semibold ink-t" id="carbsVal">0g</span></div>
+                        <div class="calorie-bar"><div id="carbsBar" class="calorie-fill bg-sky" style="width:0%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-[10px] uppercase tracking-widest ink-m">Fats</span><span class="text-xs font-semibold ink-t" id="fatsVal">0g</span></div>
+                        <div class="calorie-bar"><div id="fatsBar" class="calorie-fill bg-yellow-500" style="width:0%"></div></div>
+                    </div>
+                </div>
+                <div class="text-center mb-4">
+                    <span class="text-3xl font-syne font-semibold ink-t" id="totalCal">0</span>
+                    <span class="text-sm ink-m"> / 2000 kcal</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div><label class="text-[9px] uppercase tracking-widest ink-f block mb-1 text-center">Protein(g)</label><input id="proteinIn" type="number" placeholder="0" class="input-f w-full rounded-lg px-2 py-2 text-sm text-center focus:outline-none focus:border-brand/40"></div>
+                    <div><label class="text-[9px] uppercase tracking-widest ink-f block mb-1 text-center">Carbs(g)</label><input id="carbsIn" type="number" placeholder="0" class="input-f w-full rounded-lg px-2 py-2 text-sm text-center focus:outline-none focus:border-brand/40"></div>
+                    <div><label class="text-[9px] uppercase tracking-widest ink-f block mb-1 text-center">Fats(g)</label><input id="fatsIn" type="number" placeholder="0" class="input-f w-full rounded-lg px-2 py-2 text-sm text-center focus:outline-none focus:border-brand/40"></div>
+                </div>
+                <button onclick="addCalories()" class="btn-p w-full text-xs font-bold uppercase tracking-wide py-2.5 rounded-full">Add Meal</button>
+            </div>
+            <!-- BMI Calculator -->
+            <div class="card-b rounded-2xl p-8 text-center tool-card">
+                <div class="w-12 h-12 rounded-xl bg-sky/10 flex items-center justify-center mx-auto mb-6"><i data-lucide="scale" class="w-5 h-5 text-sky"></i></div>
+                <h3 class="font-syne text-lg font-semibold ink-t mb-6">BMI Calculator</h3>
+                <div class="space-y-3 mb-5 text-left">
+                    <div><label class="text-[10px] uppercase tracking-widest ink-m font-semibold block mb-1">Weight (kg)</label><input id="bmiW" type="number" placeholder="70" class="input-f w-full rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand/40"></div>
+                    <div><label class="text-[10px] uppercase tracking-widest ink-m font-semibold block mb-1">Height (cm)</label><input id="bmiH" type="number" placeholder="175" class="input-f w-full rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand/40"></div>
+                </div>
+                <button onclick="calcBMI()" class="btn-p w-full text-xs font-bold uppercase tracking-wide py-2.5 rounded-full mb-5">Calculate</button>
+                <div class="inline-block">
+                    <span class="text-4xl font-syne font-semibold ink-t" id="bmiVal">--</span>
+                    <span class="text-sm ink-m block mt-1" id="bmiCat">Enter details above</span>
+                </div>
+                <div class="flex justify-center gap-4 mt-4 text-[9px] uppercase tracking-widest">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-mint"></span><span class="ink-m">Under</span></span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500"></span><span class="ink-m">Normal</span></span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand"></span><span class="ink-m">Over</span></span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span><span class="ink-m">Obese</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== RECIPES ==================== -->
+<section id="recipes" class="py-24 bg-alt">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Sattva Kitchen</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Recipe of the Day</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="recipe-card card-b rounded-2xl overflow-hidden cursor-pointer group" onclick="showToast('Opening Protein Buddha Bowl recipe!')">
+                <div class="h-48 overflow-hidden"><img src="https://picsum.photos/seed/recipe-bowl/600/400.jpg" class="w-full h-full object-cover"></div>
+                <div class="p-6"><span class="text-[10px] uppercase tracking-widest text-brand font-semibold">High Protein</span><h3 class="font-syne text-lg font-semibold ink-t mt-1 mb-2">Protein Buddha Bowl</h3><p class="text-sm ink-m leading-relaxed mb-3">Quinoa, grilled chicken, avocado, chickpeas with tahini dressing.</p><div class="flex items-center gap-4 text-[10px] uppercase tracking-widest ink-f"><span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3"></i> 420 kcal</span><span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 20 min</span><span class="flex items-center gap-1"><i data-lucide="beef" class="w-3 h-3"></i> 38g protein</span></div></div>
+            </div>
+            <div class="recipe-card card-b rounded-2xl overflow-hidden cursor-pointer group" onclick="showToast('Opening Green Smoothie recipe!')">
+                <div class="h-48 overflow-hidden"><img src="https://picsum.photos/seed/recipe-smoothie/600/400.jpg" class="w-full h-full object-cover"></div>
+                <div class="p-6"><span class="text-[10px] uppercase tracking-widest text-mint font-semibold">Detox</span><h3 class="font-syne text-lg font-semibold ink-t mt-1 mb-2">Green Power Smoothie</h3><p class="text-sm ink-m leading-relaxed mb-3">Spinach, banana, almond butter, chia seeds with coconut water.</p><div class="flex items-center gap-4 text-[10px] uppercase tracking-widest ink-f"><span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3"></i> 280 kcal</span><span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min</span><span class="flex items-center gap-1"><i data-lucide="beef" class="w-3 h-3"></i> 12g protein</span></div></div>
+            </div>
+            <div class="recipe-card card-b rounded-2xl overflow-hidden cursor-pointer group" onclick="showToast('Opening Turmeric Latte recipe!')">
+                <div class="h-48 overflow-hidden"><img src="https://picsum.photos/seed/recipe-latte/600/400.jpg" class="w-full h-full object-cover"></div>
+                <div class="p-6"><span class="text-[10px] uppercase tracking-widest text-yellow-600 font-semibold">Wellness</span><h3 class="font-syne text-lg font-semibold ink-t mt-1 mb-2">Golden Turmeric Latte</h3><p class="text-sm ink-m leading-relaxed mb-3">Anti-inflammatory turmeric, ginger, cinnamon with oat milk and honey.</p><div class="flex items-center gap-4 text-[10px] uppercase tracking-widest ink-f"><span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3"></i> 120 kcal</span><span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min</span><span class="flex items-center gap-1"><i data-lucide="beef" class="w-3 h-3"></i> 3g protein</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TRAINERS ==================== -->
+<section id="trainers" class="py-24 grad-s">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Meet The Team</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Your Guides</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+            <div class="trainer-card group relative rounded-2xl overflow-hidden card-b"><img src="https://picsum.photos/seed/kt1/400/500.jpg" class="w-full h-80 object-cover"><div class="absolute inset-0 trainer-ov"></div><div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="font-syne text-lg font-semibold ink-t">Ananya Iyer</h3><span class="text-[10px] uppercase tracking-[.15em] text-brand font-semibold">Yoga & Meditation</span><div class="flex gap-2 mt-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="instagram" class="w-3.5 h-3.5 ink-m"></i></a><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="twitter" class="w-3.5 h-3.5 ink-m"></i></a></div></div></div>
+            <div class="trainer-card group relative rounded-2xl overflow-hidden card-b"><img src="https://picsum.photos/seed/kt2/400/500.jpg" class="w-full h-80 object-cover"><div class="absolute inset-0 trainer-ov"></div><div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="font-syne text-lg font-semibold ink-t">Vikram Rao</h3><span class="text-[10px] uppercase tracking-[.15em] text-brand font-semibold">Strength & Powerlifting</span><div class="flex gap-2 mt-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="instagram" class="w-3.5 h-3.5 ink-m"></i></a><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="twitter" class="w-3.5 h-3.5 ink-m"></i></a></div></div></div>
+            <div class="trainer-card group relative rounded-2xl overflow-hidden card-b"><img src="https://picsum.photos/seed/kt3/400/500.jpg" class="w-full h-80 object-cover"><div class="absolute inset-0 trainer-ov"></div><div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="font-syne text-lg font-semibold ink-t">Meera Nair</h3><span class="text-[10px] uppercase tracking-[.15em] text-brand font-semibold">HIIT & Boxing</span><div class="flex gap-2 mt-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="instagram" class="w-3.5 h-3.5 ink-m"></i></a><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="twitter" class="w-3.5 h-3.5 ink-m"></i></a></div></div></div>
+            <div class="trainer-card group relative rounded-2xl overflow-hidden card-b"><img src="https://picsum.photos/seed/kt4/400/500.jpg" class="w-full h-80 object-cover"><div class="absolute inset-0 trainer-ov"></div><div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="font-syne text-lg font-semibold ink-t">Arjun Sharma</h3><span class="text-[10px] uppercase tracking-[.15em] text-brand font-semibold">Nutrition & Recovery</span><div class="flex gap-2 mt-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="instagram" class="w-3.5 h-3.5 ink-m"></i></a><a href="#" class="w-8 h-8 rounded-full bg-ink/5 flex items-center justify-center hover:bg-brand/20 transition-colors"><i data-lucide="twitter" class="w-3.5 h-3.5 ink-m"></i></a></div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== COMMUNITY / FRIENDS ==================== -->
+<section id="community" class="py-24 bg-alt">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Our Community</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Train With Friends</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="friend-card card-b rounded-2xl p-6 text-center cursor-pointer" onclick="showToast('Opening Priya\'s profile...')"><div class="relative inline-block mb-3"><img src="https://picsum.photos/seed/kfr1/100/100.jpg" class="friend-av w-18 h-18 rounded-full object-cover border-2 border-s transition-all duration-500 mx-auto w-[72px] h-[72px]" alt=""><span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-mint border-2 border-white"></span></div><h3 class="font-syne font-semibold ink-t text-sm">Priya Sharma</h3><span class="text-[9px] uppercase tracking-widest text-brand font-semibold">Yoga</span><p class="text-[11px] ink-m mt-1 mb-3">Flows & mindfulness</p><div class="flex justify-center gap-2 mb-3"><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all"><i data-lucide="instagram" class="w-3 h-3 ink-m"></i></a><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-blue-500/20 transition-all"><i data-lucide="twitter" class="w-3 h-3 ink-m"></i></a></div><div class="pt-3 border-t border-s flex justify-around text-center"><div><span class="text-xs font-semibold ink-t block">48K</span><span class="text-[8px] ink-f uppercase tracking-widest">Followers</span></div><div><span class="text-xs font-semibold ink-t block">891</span><span class="text-[8px] ink-f uppercase tracking-widest">Following</span></div></div></div>
+            <div class="friend-card card-b rounded-2xl p-6 text-center cursor-pointer" onclick="showToast('Opening Rahul\'s profile...')"><div class="relative inline-block mb-3"><img src="https://picsum.photos/seed/kfr2/100/100.jpg" class="friend-av w-[72px] h-[72px] rounded-full object-cover border-2 border-s transition-all duration-500 mx-auto" alt=""><span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-mint border-2 border-white"></span></div><h3 class="font-syne font-semibold ink-t text-sm">Rahul Mehta</h3><span class="text-[9px] uppercase tracking-widest text-brand font-semibold">CrossFit</span><p class="text-[11px] ink-m mt-1 mb-3">WOD & competition</p><div class="flex justify-center gap-2 mb-3"><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all"><i data-lucide="instagram" class="w-3 h-3 ink-m"></i></a><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-blue-500/20 transition-all"><i data-lucide="twitter" class="w-3 h-3 ink-m"></i></a></div><div class="pt-3 border-t border-s flex justify-around text-center"><div><span class="text-xs font-semibold ink-t block">31K</span><span class="text-[8px] ink-f uppercase tracking-widest">Followers</span></div><div><span class="text-xs font-semibold ink-t block">432</span><span class="text-[8px] ink-f uppercase tracking-widest">Following</span></div></div></div>
+            <div class="friend-card card-b rounded-2xl p-6 text-center cursor-pointer" onclick="showToast('Opening Sofia\'s profile...')"><div class="relative inline-block mb-3"><img src="https://picsum.photos/seed/kfr3/100/100.jpg" class="friend-av w-[72px] h-[72px] rounded-full object-cover border-2 border-s transition-all duration-500 mx-auto" alt=""><span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-yellow-500 border-2 border-white"></span></div><h3 class="font-syne font-semibold ink-t text-sm">Sofia Martinez</h3><span class="text-[9px] uppercase tracking-widest text-brand font-semibold">HIIT</span><p class="text-[11px] ink-m mt-1 mb-3">Fat-burn & recipes</p><div class="flex justify-center gap-2 mb-3"><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all"><i data-lucide="instagram" class="w-3 h-3 ink-m"></i></a><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-blue-500/20 transition-all"><i data-lucide="twitter" class="w-3 h-3 ink-m"></i></a></div><div class="pt-3 border-t border-s flex justify-around text-center"><div><span class="text-xs font-semibold ink-t block">67K</span><span class="text-[8px] ink-f uppercase tracking-widest">Followers</span></div><div><span class="text-xs font-semibold ink-t block">1.2K</span><span class="text-[8px] ink-f uppercase tracking-widest">Following</span></div></div></div>
+            <div class="friend-card card-b rounded-2xl p-6 text-center cursor-pointer" onclick="showToast('Opening James\'s profile...')"><div class="relative inline-block mb-3"><img src="https://picsum.photos/seed/kfr4/100/100.jpg" class="friend-av w-[72px] h-[72px] rounded-full object-cover border-2 border-s transition-all duration-500 mx-auto" alt=""><span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-mint border-2 border-white"></span></div><h3 class="font-syne font-semibold ink-t text-sm">James Lee</h3><span class="text-[9px] uppercase tracking-widest text-brand font-semibold">Boxing</span><p class="text-[11px] ink-m mt-1 mb-3">Fight & technique</p><div class="flex justify-center gap-2 mb-3"><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all"><i data-lucide="instagram" class="w-3 h-3 ink-m"></i></a><a href="#" class="w-7 h-7 rounded-full bg-ink/5 flex items-center justify-center hover:bg-blue-500/20 transition-all"><i data-lucide="twitter" class="w-3 h-3 ink-m"></i></a></div><div class="pt-3 border-t border-s flex justify-around text-center"><div><span class="text-xs font-semibold ink-t block">22K</span><span class="text-[8px] ink-f uppercase tracking-widest">Followers</span></div><div><span class="text-xs font-semibold ink-t block">298</span><span class="text-[8px] ink-f uppercase tracking-widest">Following</span></div></div></div>
+        </div>
+        <div class="text-center"><button onclick="showToast('Following all friends! 🎉')" class="btn-p text-sm font-bold uppercase tracking-wide px-10 py-4 rounded-full inline-flex items-center gap-3"><i data-lucide="user-plus" class="w-4 h-4"></i>Follow All Friends</button></div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="py-24 grad-s">
+    <div class="max-w-3xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">FAQ</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Common Questions</h2>
+        </div>
+        <div class="space-y-3" id="faqContainer">
+            <div class="card-b rounded-xl overflow-hidden faq-item"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-6 py-4 text-left"><span class="text-sm font-semibold ink-t">Do I need prior fitness experience?</span><i data-lucide="chevron-down" class="w-4 h-4 ink-m faq-chevron flex-shrink-0"></i></button><div class="faq-content"><div class="px-6 pb-4 text-sm ink-m leading-relaxed faq-a rounded-b-xl mx-3 mb-3 p-4">Absolutely not! Our programs are designed for all levels — from complete beginners to advanced athletes. Your trainer will customize everything to your current fitness level.</div></div></div>
+            <div class="card-b rounded-xl overflow-hidden faq-item"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-6 py-4 text-left"><span class="text-sm font-semibold ink-t">What's included in the free trial?</span><i data-lucide="chevron-down" class="w-4 h-4 ink-m faq-chevron flex-shrink-0"></i></button><div class="faq-content"><div class="px-6 pb-4 text-sm ink-m leading-relaxed faq-a rounded-b-xl mx-3 mb-3 p-4">7 days of full access — all group classes, gym floor, locker rooms, and one complimentary personal training session. No credit card required.</div></div></div>
+            <div class="card-b rounded-xl overflow-hidden faq-item"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-6 py-4 text-left"><span class="text-sm font-semibold ink-t">Can I cancel my membership anytime?</span><i data-lucide="chevron-down" class="w-4 h-4 ink-m faq-chevron flex-shrink-0"></i></button><div class="faq-content"><div class="px-6 pb-4 text-sm ink-m leading-relaxed faq-a rounded-b-xl mx-3 mb-3 p-4">Yes! All our plans are month-to-month with no long-term contracts. Cancel anytime from your account dashboard — no questions asked.</div></div></div>
+            <div class="card-b rounded-xl overflow-hidden faq-item"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-6 py-4 text-left"><span class="text-sm font-semibold ink-t">Is nutrition coaching included?</span><i data-lucide="chevron-down" class="w-4 h-4 ink-m faq-chevron flex-shrink-0"></i></button><div class="faq-content"><div class="px-6 pb-4 text-sm ink-m leading-relaxed faq-a rounded-b-xl mx-3 mb-3 p-4">Pro and Elite plans include personalized nutrition plans. All members get access to our recipe library and basic macro tracking tools for free.</div></div></div>
+            <div class="card-b rounded-xl overflow-hidden faq-item"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-6 py-4 text-left"><span class="text-sm font-semibold ink-t">What makes Kriya different?</span><i data-lucide="chevron-down" class="w-4 h-4 ink-m faq-chevron flex-shrink-0"></i></button><div class="faq-content"><div class="px-6 pb-4 text-sm ink-m leading-relaxed faq-a rounded-b-xl mx-3 mb-3 p-4">Kriya combines modern exercise science with mindful practices like yoga, breathwork, and Ayurvedic nutrition. We focus on holistic transformation — not just physical, but mental and spiritual wellness too.</div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PRICING ==================== -->
+<section id="pricing" class="py-24 bg-alt">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Membership</span>
+            <h2 class="font-syne text-3xl md:text-4xl font-semibold tracking-tight text-g">Simple Pricing</h2>
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <span id="mLabel" class="text-sm font-medium ink-t">Monthly</span>
+                <button onclick="togglePrice()" class="relative w-14 h-7 rounded-full toggle-bg transition-colors"><span id="pDot" class="absolute top-1 left-1 w-5 h-5 rounded-full bg-brand transition-transform"></span></button>
+                <span id="yLabel" class="text-sm font-medium ink-m">Yearly <span class="text-brand text-xs">-20%</span></span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="card-b rounded-2xl p-8 flex flex-col"><span class="text-[10px] font-semibold uppercase tracking-[.15em] ink-m">Foundation</span><div class="mt-4 mb-6"><span class="text-4xl font-syne font-semibold ink-t pm">$19</span><span class="text-4xl font-syne font-semibold ink-t py hidden">$15</span><span class="text-sm ink-m">/mo</span></div><ul class="space-y-3 mb-8 flex-1 text-sm"><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Gym Floor Access</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Locker & Showers</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Mobile App</li><li class="flex items-center gap-2 ink-f"><i data-lucide="x" class="w-4 h-4 ink-f flex-shrink-0"></i>Group Classes</li><li class="flex items-center gap-2 ink-f"><i data-lucide="x" class="w-4 h-4 ink-f flex-shrink-0"></i>Personal Training</li></ul><button onclick="showToast('Foundation selected!')" class="w-full py-3 rounded-full border border-s text-sm font-bold uppercase tracking-wide ink-m hover:border-brand/40 hover:text-brand transition-all">Choose</button></div>
+            <div class="rounded-2xl p-8 flex flex-col relative" style="background:#FFF;border:1px solid rgba(232,93,4,.3);box-shadow:0 0 50px rgba(232,93,4,.08)"><span class="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-[.15em] text-white bg-brand px-4 py-1 rounded-full">Popular</span><span class="text-[10px] font-semibold uppercase tracking-[.15em] text-brand">Evolution</span><div class="mt-4 mb-6"><span class="text-4xl font-syne font-semibold ink-t pm">$49</span><span class="text-4xl font-syne font-semibold ink-t py hidden">$39</span><span class="text-sm ink-m">/mo</span></div><ul class="space-y-3 mb-8 flex-1 text-sm"><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Everything in Foundation</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Unlimited Group Classes</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>4 PT Sessions/mo</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Nutrition Plan</li><li class="flex items-center gap-2 ink-f"><i data-lucide="x" class="w-4 h-4 ink-f flex-shrink-0"></i>Recovery Zone</li></ul><button onclick="showToast('Evolution selected! Great choice!')" class="btn-p w-full py-3 rounded-full text-sm font-bold uppercase tracking-wide">Choose</button></div>
+            <div class="card-b rounded-2xl p-8 flex flex-col"><span class="text-[10px] font-semibold uppercase tracking-[.15em] ink-m">Transformation</span><div class="mt-4 mb-6"><span class="text-4xl font-syne font-semibold ink-t pm">$89</span><span class="text-4xl font-syne font-semibold ink-t py hidden">$71</span><span class="text-sm ink-m">/mo</span></div><ul class="space-y-3 mb-8 flex-1 text-sm"><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Everything in Evolution</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Unlimited PT</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Recovery Zone</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Meal Prep Delivery</li><li class="flex items-center gap-2 ink-m"><i data-lucide="check" class="w-4 h-4 text-mint flex-shrink-0"></i>Guest Passes (4/mo)</li></ul><button onclick="showToast('Transformation selected! Premium!')" class="w-full py-3 rounded-full border border-s text-sm font-bold uppercase tracking-wide ink-m hover:border-brand/40 hover:text-brand transition-all">Choose</button></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CTA / CONTACT ==================== -->
+<section id="contact" class="py-24 grad-s relative overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/4 rounded-full blur-[128px] pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+        <span class="text-[10px] font-semibold uppercase tracking-[.2em] text-brand block mb-4">Begin Today</span>
+        <h2 class="font-syne text-3xl md:text-5xl font-semibold tracking-tight text-g mb-4">Your Transformation<br>Starts Now</h2>
+        <p class="text-sm ink-m max-w-md mx-auto leading-relaxed mb-8">Join 3,200+ members who chose to invest in themselves. No contracts. No excuses. Just results.</p>
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+            <button onclick="showToast('Redirecting to signup!')" class="btn-p text-sm font-bold uppercase tracking-wide px-10 py-4 rounded-full flex items-center gap-2"><span>Start Free Trial</span><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            <button onclick="showToast('Opening WhatsApp...')" class="text-sm font-bold uppercase tracking-wide px-10 py-4 rounded-full border border-s ink-m hover:border-brand/40 hover:text-brand transition-all flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i>Chat on WhatsApp</button>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center"><i data-lucide="map-pin" class="w-4 h-4 text-brand"></i></div><div class="text-left"><span class="text-sm font-medium ink-t block">123 Wellness Road</span><span class="text-xs ink-m">Chennai, India</span></div></div>
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center"><i data-lucide="phone" class="w-4 h-4 text-brand"></i></div><div class="text-left"><span class="text-sm font-medium ink-t block">+91 98765 43210</span><span class="text-xs ink-m">Mon–Sun, 5AM – 11PM</span></div></div>
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center"><i data-lucide="mail" class="w-4 h-4 text-brand"></i></div><div class="text-left"><span class="text-sm font-medium ink-t block">hello@kriya.fit</span><span class="text-xs ink-m">We respond within 2h</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t border-s foot-bg">
+    <div class="max-w-7xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div>
+                <a href="#" class="font-syne font-bold text-lg tracking-tight flex items-center gap-2 mb-4 ink-t"><div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center" style="box-shadow:0 0 15px rgba(232,93,4,.3)"><i data-lucide="lotus" class="w-4 h-4 text-white"></i></div>Kriya</a>
+                <p class="text-sm ink-m leading-relaxed mb-4">Holistic health & fitness. Move, nourish, transform — the Kriya way.</p>
+                <div class="flex gap-3"><a href="#" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all"><i data-lucide="instagram" class="w-4 h-4 ink-m"></i></a><a href="#" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-blue-500/20 transition-all"><i data-lucide="twitter" class="w-4 h-4 ink-m"></i></a><a href="#" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-red-500/20 transition-all"><i data-lucide="youtube" class="w-4 h-4 ink-m"></i></a><a href="#" class="w-9 h-9 rounded-full bg-ink/5 flex items-center justify-center hover:bg-green-600/20 transition-all"><i data-lucide="message-circle" class="w-4 h-4 ink-m"></i></a></div>
+            </div>
+            <div><span class="text-[10px] font-semibold uppercase tracking-[.15em] ink-m block mb-4">Programs</span><ul class="space-y-2"><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Power Kriya</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Prana Flow Yoga</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Agni HIIT</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Warrior Boxing</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Sattva Nutrition</a></li></ul></div>
+            <div><span class="text-[10px] font-semibold uppercase tracking-[.15em] ink-m block mb-4">Company</span><ul class="space-y-2"><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">About Kriya</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Our Team</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Blog</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Careers</a></li><li><a href="#" class="text-sm ink-m hover:ink-t transition-colors">Press</a></li></ul></div>
+            <div><span class="text-[10px] font-semibold uppercase tracking-[.15em] ink-m block mb-4">Newsletter</span><p class="text-sm ink-m leading-relaxed mb-4">Weekly wellness tips & exclusive offers.</p><form onsubmit="event.preventDefault();showToast('Subscribed!');this.reset();" class="flex gap-2"><input type="email" required placeholder="Your email" class="input-f flex-1 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand/40"><button type="submit" class="btn-p px-4 py-2.5 rounded-xl"><i data-lucide="send" class="w-4 h-4"></i></button></form></div>
+        </div>
+
+        <!-- Creator Credit -->
+        <div class="mb-10">
+            <div class="creator-glow rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center flex-shrink-0"><i data-lucide="code-2" class="w-6 h-6 text-brand"></i></div>
+                    <div><span class="text-[10px] uppercase tracking-[.2em] ink-m font-semibold block mb-1">Designed & Developed By</span><span class="shimmer-t font-syne text-xl md:text-2xl font-bold tracking-tight">Aravind Venkatraman</span></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="#" onclick="showToast('Opening Instagram...')" class="w-10 h-10 rounded-xl bg-ink/5 border border-s flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all"><i data-lucide="instagram" class="w-4 h-4 ink-m"></i></a>
+                    <a href="#" onclick="showToast('Opening Twitter...')" class="w-10 h-10 rounded-xl bg-ink/5 border border-s flex items-center justify-center hover:bg-blue-500/20 hover:border-blue-500/30 transition-all"><i data-lucide="twitter" class="w-4 h-4 ink-m"></i></a>
+                    <a href="#" onclick="showToast('Opening LinkedIn...')" class="w-10 h-10 rounded-xl bg-ink/5 border border-s flex items-center justify-center hover:bg-blue-600/20 hover:border-blue-600/30 transition-all"><i data-lucide="linkedin" class="w-4 h-4 ink-m"></i></a>
+                    <a href="#" onclick="showToast('Opening GitHub...')" class="w-10 h-10 rounded-xl bg-ink/5 border border-s flex items-center justify-center hover:bg-ink/10 hover:border-ink/20 transition-all"><i data-lucide="github" class="w-4 h-4 ink-m"></i></a>
+                    <a href="#" onclick="showToast('Opening YouTube...')" class="w-10 h-10 rounded-xl bg-ink/5 border border-s flex items-center justify-center hover:bg-red-500/20 hover:border-red-500/30 transition-all"><i data-lucide="youtube" class="w-4 h-4 ink-m"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-s pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <span class="text-xs ink-f">© 2025 Kriya Health Fitness. All rights reserved.</span>
+            <div class="flex items-center gap-2"><span class="text-xs ink-f">Crafted with</span><i data-lucide="heart" class="w-3 h-3 text-brand fill-brand"></i><span class="text-xs ink-f">by Aravind Venkatraman</span></div>
+            <div class="flex gap-6"><a href="#" class="text-xs ink-f hover:ink-m transition-colors">Privacy</a><a href="#" class="text-xs ink-f hover:ink-m transition-colors">Terms</a><a href="#" class="text-xs ink-f hover:ink-m transition-colors">Cookies</a></div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 left-6 z-50 w-10 h-10 rounded-full back-btn flex items-center justify-center opacity-0 translate-y-4 transition-all duration-300 hover:bg-brand/10 hover:border-brand/30" style="pointer-events:none"><i data-lucide="chevron-up" class="w-4 h-4 ink-m"></i></button>
+
+<script>
+lucide.createIcons();
+
+// Toast
+function showToast(m){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+
+// Mobile Menu
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+
+// Dark Mode
+function toggleDark(){document.body.classList.toggle('dark-mode');showToast(document.body.classList.contains('dark-mode')?'Dark mode on 🌙':'Light mode on ☀️')}
+
+// Workout Timer
+let timerTotal=30,timerLeft=30,timerInterval=null,timerRunning=false;
+const circumference=2*Math.PI*70;
+function setTimer(s){resetTimer();timerTotal=s;timerLeft=s;updateTimerDisplay();updateTimerRing()}
+function updateTimerDisplay(){const m=Math.floor(timerLeft/60);const s=timerLeft%60;document.getElementById('timerDisplay').textContent=m+':'+(s<10?'0':'')+s}
+function updateTimerRing(){const offset=circumference*(1-timerLeft/timerTotal);document.getElementById('timerCircle').style.strokeDashoffset=offset}
+function startTimer(){if(timerRunning){clearInterval(timerInterval);timerRunning=false;document.getElementById('timerStartBtn').textContent='Resume';return}
+timerRunning=true;document.getElementById('timerStartBtn').textContent='Pause';
+timerInterval=setInterval(()=>{timerLeft--;if(timerLeft<=0){clearInterval(timerInterval);timerRunning=false;document.getElementById('timerStartBtn').textContent='Start';showToast('⏰ Timer complete! Great work!');timerLeft=0}
+updateTimerDisplay();updateTimerRing()},1000)}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timerLeft=timerTotal;document.getElementById('timerStartBtn').textContent='Start';updateTimerDisplay();updateTimerRing()}
+setTimer(30);
+
+// Calorie Counter
+let totalP=0,totalC=0,totalF=0;
+function addCalories(){const p=parseInt(document.getElementById('proteinIn').value)||0;const c=parseInt(document.getElementById('carbsIn').value)||0;const f=parseInt(document.getElementById('fatsIn').value)||0;totalP+=p;totalC+=c;totalF+=f;const cal=totalP*4+totalC*4+totalF*9;document.getElementById('proteinVal').textContent=totalP+'g';document.getElementById('carbsVal').textContent=totalC+'g';document.getElementById('fatsVal').textContent=totalF+'g';document.getElementById('totalCal').textContent=cal;document.getElementById('proteinBar').style.width=Math.min(totalP/150*100,100)+'%';document.getElementById('carbsBar').style.width=Math.min(totalC/250*100,100)+'%';document.getElementById('fatsBar').style.width=Math.min(totalF/65*100,100)+'%';document.getElementById('proteinIn').value='';document.getElementById('carbsIn').value='';document.getElementById('fatsIn').value='';showToast('Added '+cal+' kcal total so far!')}
+
+// BMI
+function calcBMI(){const w=parseFloat(document.getElementById('bmiW').value);const h=parseFloat(document.getElementById('bmiH').value);if(!w||!h||w<=0||h<=0){showToast('Enter valid values');return}const bmi=(w/((h/100)**2)).toFixed(1);document.getElementById('bmiVal').textContent=bmi;let cat='',col='';if(bmi<18.5){cat='Underweight';col='#22C55E'}else if(bmi<25){cat='Normal';col='#EAB308'}else if(bmi<30){cat='Overweight';col='#E85D04'}else{cat='Obese';col='#EF4444'}const el=document.getElementById('bmiCat');el.textContent=cat;el.style.color=col;document.getElementById('bmiVal').style.color=col}
+
+// FAQ
+function toggleFaq(btn){const content=btn.nextElementSibling;const chev=btn.querySelector('.faq-chevron');const isOpen=content.classList.contains('open');document.querySelectorAll('.faq-content').forEach(c=>c.classList.remove('open'));document.querySelectorAll('.faq-chevron').forEach(c=>c.classList.remove('open'));if(!isOpen){content.classList.add('open');chev.classList.add('open')}}
+
+// Pricing Toggle
+let isY=false;
+function togglePrice(){isY=!isY;const d=document.getElementById('pDot');document.querySelectorAll('.pm').forEach(p=>p.classList.toggle('hidden',isY));document.querySelectorAll('.py').forEach(p=>p.classList.toggle('hidden',!isY));d.style.transform=isY?'translateX(28px)':'translateX(0)';document.getElementById('mLabel').classList.toggle('ink-t',!isY);document.getElementById('mLabel').classList.toggle('ink-m',isY);document.getElementById('yLabel').classList.toggle('ink-t',isY);document.getElementById('yLabel').classList.toggle('ink-m',!isY)}
+
+// Back to Top
+window.addEventListener('scroll',()=>{const b=document.getElementById('btt');if(window.scrollY>600){b.style.opacity='1';b.style.transform='translateY(0)';b.style.pointerEvents='auto'}else{b.style.opacity='0';b.style.transform='translateY(16px)';b.style.pointerEvents='none'}});
+
+// Nav scroll
+const nav=document.querySelector('nav');
+window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>100?(document.body.classList.contains('dark-mode')?'rgba(10,10,10,.95)':'rgba(250,245,238,.95)'):(document.body.classList.contains('dark-mode')?'rgba(10,10,10,.85)':'rgba(255,255,255,.85)')});
+
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.gsap-stat [data-count]').forEach(el=>{const t=parseInt(el.dataset.count);ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:()=>{gsap.to(el,{innerText:t,duration:2,snap:{innerText:1},ease:'power2.out'})}})});
+gsap.utils.toArray('.prog-card').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 85%',once:true},opacity:0,y:30,duration:.6,delay:i*.08,ease:'power2.out'})});
+gsap.utils.toArray('.tool-card').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 85%',once:true},opacity:0,y:30,duration:.6,delay:i*.1,ease:'power2.out'})});
+gsap.utils.toArray('.trainer-card').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 85%',once:true},opacity:0,y:40,duration:.7,delay:i*.1,ease:'power2.out'})});
+gsap.utils.toArray('.friend-card').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 88%',once:true},opacity:0,y:30,duration:.5,delay:i*.07,ease:'power2.out'})});
+gsap.utils.toArray('.faq-item').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 90%',once:true},opacity:0,y:20,duration:.5,delay:i*.06,ease:'power2.out'})});
+gsap.utils.toArray('.recipe-card').forEach((c,i)=>{gsap.from(c,{scrollTrigger:{trigger:c,start:'top 85%',once:true},opacity:0,y:30,duration:.6,delay:i*.1,ease:'power2.out'})});
+gsap.from('.creator-glow',{scrollTrigger:{trigger:'.creator-glow',start:'top 90%',once:true},opacity:0,y:20,duration:.8,ease:'power2.out'});
+</script>
+</body>
+</html>
